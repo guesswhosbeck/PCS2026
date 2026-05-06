@@ -1,0 +1,56 @@
+/* test quicksort */
+#include "sort_function.hpp"
+#include "randfiller.hpp"
+#include "timecounter.h"
+#include <iostream>
+#include <vector>
+#include <string>
+
+
+int main(void)
+{		
+	bool sorted=true;
+    randfiller rf; /* instantiate a randfiller */
+    std::vector<int> vi_dim;
+    vi_dim.resize(100); /* ho iniziato con 10 e poi aumento a 100 */
+    rf.fill(vi_dim, 1, 1000); /* use it on vectors */
+	for (int i=0; i<vi_dim.size();i++) {
+		int dimension=vi_dim[i];
+		for (int j=0; j<100; j++) {
+			std::vector<int> vi_test;
+			vi_test.resize(dimension);
+			rf.fill(vi_test, -10000,10000);
+			quicksort(vi_test,0,vi_test.size()-1);
+			if (not is_sorted(vi_test)){
+				sorted=false;
+			}
+		}
+	
+	}
+	
+	
+	/* verifico se funziona anche con le stringhe */
+	
+	std::vector<std::string> vi_string;
+	bool string_sorted = false;
+	vi_string = {"l'algoritmo funziona,", "ecco la prova: ", "buongiorno", "carissimi professori", "data la richiesta,", "mi aspetto una", "in modo preciso ed efficiente", "vostro Cosimo Becagli", "tanti saluti", "ricompensa :)"};
+    quicksort(vi_string,0,vi_string.size()-1);
+	if (is_sorted(vi_string)) {
+		string_sorted = true;
+		std::cout << "Ha ordinato anche la stringa\n";
+		for (int i=0; i<vi_string.size(); i++) {
+			std::cout << vi_string[i] << "\n";
+		}
+	}
+	
+	
+	/* controllo se l'algoritmo ha funzionato */
+    if (sorted && string_sorted ) {
+		std::cout << "L'algoritmo quicksort ha funzionato" << "\n";
+		return EXIT_SUCCESS;
+	}
+    else {
+		std::cout << "L'algoritmo quicksort non ha funzionato \n";
+		return EXIT_FAILURE;
+	}
+}
